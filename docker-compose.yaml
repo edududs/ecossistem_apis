@@ -14,6 +14,15 @@ services:
       RABBITMQ_DEFAULT_PASS: admin
     volumes:
       - rabbitmq_ecossistem:/var/lib/rabbitmq
+  redis_ecossistem:
+    image: redis:latest
+    container_name: redis-django-ecossistem
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_ecossistem:/data
 
 volumes:
   rabbitmq_ecossistem:
+  redis_ecossistem:

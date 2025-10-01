@@ -19,6 +19,7 @@ dependencies = [
     "typer>=0.19.2",
     "types-requests>=2.32.4.20250913",
     "django-tools",
+    "redis>=6.4.0",
 ]
 
 [tool.uv.workspace]

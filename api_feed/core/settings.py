@@ -16,9 +16,6 @@ SECRET_KEY = base_settings.secret_key
 DEBUG = base_settings.debug
 print(f"ALLOWED_HOSTS: {base_settings.allowed_hosts}\nAPI_NAME: {base_settings.api_name}")
 ALLOWED_HOSTS = base_settings.allowed_hosts
-for key, value in base_settings.celery_config.items():
-    celery_key = f"CELERY_{key.upper()}"
-    globals()[celery_key] = value
 
 # === Application Definition ===
 INSTALLED_APPS = [
@@ -63,8 +60,6 @@ USE_TZ = base_settings.use_tz
 # === Default Primary Key Field Type ===
 DEFAULT_AUTO_FIELD = base_settings.default_auto_field
 
-TEMPLATES = base_settings.templates
-
 # === Logging ===
 LOGGING_CONFIG = "logging.config.dictConfig"
 LOGGING = {
@@ -100,4 +95,28 @@ LOGGING = {
     },
 }
 
+# === Celery Configuration ===
+for key, value in base_settings.celery_config.items():
+    celery_key = f"CELERY_{key.upper()}"
+    globals()[celery_key] = value
+
+# === Redis Configuration ===
+for key, value in base_settings.redis_config.items():
+    redis_key = f"REDIS_{key.upper()}"
+    globals()[redis_key] = value
+
+# === Cache Configuration ===
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": base_settings.redis_url,
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+        "KEY_PREFIX": "feed_cache",
+        "TIMEOUT": 300,  # 5 minutos
+    }
+}
+
 STATIC_URL = "static/"
+TEMPLATES = base_settings.templates
