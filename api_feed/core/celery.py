@@ -1,4 +1,7 @@
 import celery
+from django_tools.utils import setup_django_if_needed
+
+setup_django_if_needed()
 
 celery_app = celery.Celery("feed")
 

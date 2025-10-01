@@ -6,13 +6,10 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         """Inserts a randomly generated Produto into the database."""
-        import logging
         import random
         import string
 
         from produto.models import Produto
-
-        logger = logging.getLogger(__name__)
 
         def random_string(length=10):
             """Generate a random string of fixed length."""
@@ -39,6 +36,5 @@ class Command(BaseCommand):
         }
 
         produto = Produto.objects.create(**product_data)
-        logger.info(f"Inserted random product: {produto}")
 
         self.stdout.write(self.style.SUCCESS(f"Inserted random product: {produto}"))

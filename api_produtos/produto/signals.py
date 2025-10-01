@@ -10,5 +10,4 @@ def create_produto(sender, instance, created, **kwargs):
 
     print(f"\nPassando dentro do Signal.\nInstância: {instance}\nCriada: {created}")
     if created:
-        print(f"Produto criado: {instance}")
         send_product(instance)
