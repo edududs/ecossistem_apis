@@ -1,7 +1,9 @@
-from django_tools.utils import setup_django_if_needed
+import celery
 
-setup_django_if_needed()
+celery_app = celery.Celery("feed")
 
-from django_tools.kiwi import app as celery_app
+celery_app.config_from_object("django.conf:settings", namespace="CELERY")
+
+celery_app.autodiscover_tasks()
 
 __all__ = ("celery_app",)
