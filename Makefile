@@ -12,3 +12,7 @@ run-feed: ## Executa a API de feed
 run-produtos: ## Executa a API de produtos
 	@echo "🚀 Iniciando API de produtos..."
 	cd api_produtos && uv run python manage.py runserver 0.0.0.0:8001
+
+add-rand-product:
+	@echo "🚀 Inserindo produto aleatório..."
+	cd api_produtos && uv run python manage.py insert_random_product
