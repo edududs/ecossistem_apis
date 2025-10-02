@@ -1,9 +1,11 @@
+from dj_cqrs.mixins import MasterMixin
 from django.db import models
 from django.db.models import Manager
 
 
 # Create your models here.
-class Produto(models.Model):
+class Produto(MasterMixin, models.Model):
+    CQRS_ID = "produto"
     sku = models.IntegerField(primary_key=True)
     nome = models.CharField(max_length=255)
     descricao = models.TextField()

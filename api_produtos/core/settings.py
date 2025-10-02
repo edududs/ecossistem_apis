@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "produto",
+    "dj_cqrs",
 ]
 
 MIDDLEWARE = [
@@ -108,6 +109,9 @@ CACHES = {
         "TIMEOUT": 300,  # 5 minutos
     }
 }
+
+CQRS = {"transport": "dj_cqrs.transport.RabbitMQTransport", "url": base_settings.broker_url}
+
 
 # === Internationalization ===
 LANGUAGE_CODE = base_settings.language_code

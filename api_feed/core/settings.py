@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "feed",
+    "dj_cqrs",
 ]
 
 MIDDLEWARE = [
@@ -104,6 +105,21 @@ for key, value in base_settings.celery_config.items():
 for key, value in base_settings.redis_config.items():
     redis_key = f"REDIS_{key.upper()}"
     globals()[redis_key] = value
+
+CQRS = {
+    "transport": "dj_cqrs.transport.RabbitMQTransport",
+    "url": base_settings.effective_broker_url,
+    "queue": "feed_replica",
+    "replica": {
+        # === Retry Configuration ===
+        "CQRS_MAX_RETRIES": 3,  # Número máximo de tentativas
+        "CQRS_RETRY_DELAY": 5,  # Intervalo em segundos entre tentativas
+        "CQRS_DELAY_QUEUE_MAX_SIZE": 1000,  # Máximo de mensagens atrasadas por worker
+        # === Dead Letter Queue Configuration ===
+        "dead_letter_queue": "dead_letter_feed_replica",
+        "dead_message_ttl": 604800,  # TTL: 7 dias em segundos
+    },
+}
 
 # === Cache Configuration ===
 CACHES = {
